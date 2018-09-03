@@ -161,6 +161,7 @@ public class TennisGameEngineTest {
         assertThat(gameEngine.getSetWinner()).isEqualTo(player1);
     }
 
+    @Ignore // thz User story 1 of sprint 2 is not compatible with the User story 2
     @Test
     public void testPlayer1_reach_6_and_the_other_has_5_player1_must_reach_7_points() {
         gameEngine.join(player1);
@@ -180,6 +181,34 @@ public class TennisGameEngineTest {
         winAGame(player1);
         assertThat(gameEngine.getPlayerSetScore(player1.getName())).isEqualTo(7);
         assertThat(gameEngine.getSetWinner()).isEqualTo(player1);
+    }
+
+    @Test
+    public void testPlayers_reach_6_tieBreak_must_be_applied() {
+        gameEngine.join(player1);
+        gameEngine.join(player2);
+        gameEngine.startMatch();
+        for (int i=1; i<=6; i++)
+            winAGame(player1);
+        for (int i=1; i<=6; i++)
+            winAGame(player2);
+
+        assertThat(gameEngine.getPlayerTieBreakScore(player1.getName())).isEqualTo(0);
+        assertThat(gameEngine.getSetWinner()).isNull();
+        assertThat(gameEngine.getPlayerSetScore(player1.getName())).isEqualTo(6);
+        assertThat(gameEngine.getPlayerSetScore(player2.getName())).isEqualTo(6);
+
+        for (int tieBreakScore=1;tieBreakScore<=7;tieBreakScore++) {
+            winAGame(player1);
+            assertThat(gameEngine.getPlayerSetScore(player1.getName())).isEqualTo(6);
+            if (tieBreakScore<7) {
+                assertThat(gameEngine.getSetWinner()).isNull();
+                assertThat(gameEngine.getPlayerTieBreakScore(player1.getName())).isEqualTo(tieBreakScore);
+                assertThat(gameEngine.getMatchWinner()).isNull();
+            }
+        }
+        assertThat(gameEngine.getSetWinner()).isEqualTo(player1);
+        assertThat(gameEngine.getMatchWinner()).isEqualTo(player1);
     }
 
 }

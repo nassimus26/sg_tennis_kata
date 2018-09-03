@@ -40,6 +40,14 @@ public class TennisGameService {
         return game.getPlayerGameScore(name);
     }
 
+    public int getPlayerSetScore(String name) {
+        return game.getPlayerSetScore(name);
+    }
+
+    public boolean isPlayerDeuce(String name) {
+        return game.isPlayerDeuce(name);
+    }
+
     public void winPoint(String name) {
         game.winPoint(name);
     }
