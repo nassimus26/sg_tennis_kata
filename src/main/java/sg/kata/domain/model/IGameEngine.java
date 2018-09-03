@@ -38,4 +38,8 @@ public interface IGameEngine {
 
     void clearPlayers();
 
+    boolean isPlayerDeuce(String name);
+
+    void setPlayerDeuce(String name, boolean deuce);
+
 }

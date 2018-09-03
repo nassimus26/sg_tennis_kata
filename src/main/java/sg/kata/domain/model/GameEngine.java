@@ -132,4 +132,12 @@ public class GameEngine implements IGameEngine {
         getPlayer(name).getGameScore().setScore(score);
     }
 
+    public boolean isPlayerDeuce(String name) {
+        return getPlayer(name).getGameScore().isDeuce();
+    }
+
+    public void setPlayerDeuce(String name, boolean deuce) {
+        getPlayer(name).getGameScore().setDeuce(deuce);
+    }
+
 }

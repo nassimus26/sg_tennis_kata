@@ -89,4 +89,33 @@ public class TennisGameEngineTest {
         assertThat(gameEngine.getGameWinner()).isEqualTo(player1);
     }
 
+    @Test
+    public void testWinGameWithDeuce() {
+        gameEngine.join(player1);
+        gameEngine.join(player2);
+        gameEngine.startMatch();
+        for (int i=0; i<POINTS.length; i++) {
+            assertThat(gameEngine.getPlayerGameScore(player1.getName())).isEqualTo(POINTS[i]);
+            assertThat(gameEngine.getPlayerGameScore(player2.getName())).isEqualTo(POINTS[i]);
+            gameEngine.winPoint(player1.getName());
+            gameEngine.winPoint(player2.getName());
+        }
+        assertThat(gameEngine.getGameWinner()).isNull();
+        assertThat(gameEngine.isPlayerDeuce(player1.getName())).isFalse();
+        assertThat(gameEngine.isPlayerDeuce(player2.getName())).isFalse();
+        gameEngine.winPoint(player1.getName());
+        assertThat(gameEngine.getGameWinner()).isNull();
+        assertThat(gameEngine.isPlayerDeuce(player1.getName())).isTrue();
+        assertThat(gameEngine.isPlayerDeuce(player2.getName())).isFalse();
+        gameEngine.winPoint(player2.getName());
+        assertThat(gameEngine.getGameWinner()).isNull();
+        assertThat(gameEngine.isPlayerDeuce(player1.getName())).isFalse();
+        assertThat(gameEngine.isPlayerDeuce(player2.getName())).isFalse();
+        gameEngine.winPoint(player2.getName());
+        assertThat(gameEngine.getGameWinner()).isNull();
+        assertThat(gameEngine.isPlayerDeuce(player1.getName())).isFalse();
+        assertThat(gameEngine.isPlayerDeuce(player2.getName())).isTrue();
+        gameEngine.winPoint(player2.getName());
+        assertThat(gameEngine.getGameWinner()).isEqualTo(player2);
+    }
 }
