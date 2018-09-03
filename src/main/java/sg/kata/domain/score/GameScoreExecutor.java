@@ -28,6 +28,18 @@ public class GameScoreExecutor extends ScoreExecutor {
             if (game.getPlayerGameScore(opponent)!=40){
                 game.winTheGame(player);
             }
+            else if (game.isPlayerDeuce(player)) {
+                game.winTheGame(player);
+            }else
+            if (!game.isPlayerDeuce(opponent)) {
+                game.setPlayerDeuce(player, true);
+                game.setPlayerDeuce(opponent, false);
+                log.debug("Deuce Case " +
+                        game.getPlayerName(player) + " take the adventage");
+            }else{
+                game.setPlayerDeuce(opponent, false);
+                log.debug("Deuce Case " + game.getPlayerName(opponent) + " loose the adventage");
+            }
         }else
             game.setPlayerGameScore(player, newScore);
 
