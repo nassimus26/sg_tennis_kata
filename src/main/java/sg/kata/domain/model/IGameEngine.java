@@ -46,4 +46,7 @@ public interface IGameEngine {
 
     void clearPlayers();
 
+    int getPlayerTieBreakScore(String name);
+
+    void setPlayerTieBreakScore(String name, int score);
 }

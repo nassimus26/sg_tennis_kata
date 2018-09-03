@@ -16,9 +16,15 @@ public class SetScoreExecutor extends ScoreExecutor {
         int currentScore = game.getPlayerSetScore(player);
         int newScore = nextScore(currentScore);
         if ( newScore >= 6 ) {
-            if (game.getPlayerSetScore(opponent) <=4 || newScore==7 ) {
+            if (game.getPlayerSetScore(opponent) <=4 ) {
                 game.winTheSet(player);
                 game.setPlayerSetScore( player, newScore );
+            }else if (currentScore>=6 && game.getPlayerSetScore(opponent)>=6) {
+                game.setPlayerTieBreakScore(player, game.getPlayerTieBreakScore(player) + 1);
+                if (game.getPlayerTieBreakScore(player)>=7 && game.getPlayerTieBreakScore(player)-game.getPlayerTieBreakScore(opponent)>2){
+                    game.winTheSet(player);
+                    game.winTheMatch(player);
+                }
             }else
                 game.setPlayerSetScore( player, newScore );
         }else

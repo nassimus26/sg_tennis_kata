@@ -135,6 +135,14 @@ public class GameEngine implements IGameEngine {
         return getPlayer(name).getSetScore().getScore();
     }
 
+    public int getPlayerTieBreakScore(String name) {
+        return getPlayer(name).getSetScore().getTieBreak();
+    }
+
+    public void setPlayerTieBreakScore(String name, int score) {
+        getPlayer(name).getSetScore().setTieBreak(score);
+    }
+
     public boolean isPlayerDeuce(String name) {
         return getPlayer(name).getGameScore().isDeuce();
     }

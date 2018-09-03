@@ -9,11 +9,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PlayerGameScore extends PlayerScore {
+
     private boolean deuce;
 
     @Override
     public void clear() {
         super.clear();
-        this.deuce = false;
+        deuce = false;
     }
 }
