@@ -22,7 +22,15 @@ public interface IGameEngine {
 
     int getPlayerGameScore(String name);
 
+    int getPlayerSetScore(String name);
+
+    boolean isPlayerDeuce(String name);
+
+    void setPlayerDeuce(String name, boolean deuce);
+
     void setPlayerGameScore(String name, int score);
+
+    void setPlayerSetScore(String name, int score);
 
     Player getGameWinner();
 
@@ -37,9 +45,5 @@ public interface IGameEngine {
     boolean isReady();
 
     void clearPlayers();
-
-    boolean isPlayerDeuce(String name);
-
-    void setPlayerDeuce(String name, boolean deuce);
 
 }

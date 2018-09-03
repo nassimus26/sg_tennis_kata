@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import sg.kata.domain.score.GameScoreExecutor;
+import sg.kata.domain.score.SetScoreExecutor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +26,7 @@ public class GameEngine implements IGameEngine {
     private final Map<String, Player> players = new HashMap<>();
 
     private GameScoreExecutor gameScoreExecutor = new GameScoreExecutor(this);
+    private SetScoreExecutor setScoreExecutor = new SetScoreExecutor(this);
     public static String GAME_CANNOT_STARTED = "At least one player is missed";
     @Getter
     private Player pointWinner;
@@ -84,6 +86,7 @@ public class GameEngine implements IGameEngine {
 
     public void winTheGame(String name) {
         gameWinner = getPlayer(name);
+        setScoreExecutor.applyRules(name);
         resetGameScores();
     }
 
@@ -128,8 +131,8 @@ public class GameEngine implements IGameEngine {
         return getPlayer(name).getGameScore().getScore();
     }
 
-    public void setPlayerGameScore(String name, int score) {
-        getPlayer(name).getGameScore().setScore(score);
+    public int getPlayerSetScore(String name) {
+        return getPlayer(name).getSetScore().getScore();
     }
 
     public boolean isPlayerDeuce(String name) {
@@ -138,6 +141,14 @@ public class GameEngine implements IGameEngine {
 
     public void setPlayerDeuce(String name, boolean deuce) {
         getPlayer(name).getGameScore().setDeuce(deuce);
+    }
+
+    public void setPlayerGameScore(String name, int score) {
+        getPlayer(name).getGameScore().setScore(score);
+    }
+
+    public void setPlayerSetScore(String name, int score) {
+        getPlayer(name).getSetScore().setScore(score);
     }
 
 }

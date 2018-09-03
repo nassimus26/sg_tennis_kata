@@ -15,6 +15,7 @@ public class Player {
     @Setter
     private int index;
     private PlayerGameScore gameScore = new PlayerGameScore();
+    private PlayerSetScore setScore = new PlayerSetScore();
 
     final public void resetScores(){
         resetGameScore();

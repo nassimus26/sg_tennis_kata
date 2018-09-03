@@ -118,4 +118,68 @@ public class TennisGameEngineTest {
         gameEngine.winPoint(player2.getName());
         assertThat(gameEngine.getGameWinner()).isEqualTo(player2);
     }
+
+    private void winAGame(Player player){
+        for (int j = 0; j < POINTS.length; j++)
+            gameEngine.winPoint(player.getName());
+    }
+
+    @Test
+    public void testWinSet() {
+        gameEngine.join(player1);
+        gameEngine.join(player2);
+        gameEngine.startMatch();
+        for (int i=1; i<=6; i++) {
+            for (int j = 0; j < POINTS.length; j++) {
+                assertThat(gameEngine.getPlayerGameScore(player1.getName())).isEqualTo(POINTS[j]);
+                assertThat(gameEngine.getPlayerGameScore(player2.getName())).isEqualTo(0);
+                gameEngine.winPoint(player1.getName());
+            }
+            assertThat(gameEngine.getGameWinner()).isEqualTo(player1);
+            assertThat(gameEngine.getPlayerSetScore(player1.getName())).isEqualTo(i);
+            if (i<6)
+                assertThat(gameEngine.getSetWinner()).isNull();
+        }
+        assertThat(gameEngine.getSetWinner()).isEqualTo(player1);
+    }
+
+    @Test
+    public void testPlayer1_reach_6_and_the_other_has_4_player1_win() {
+        gameEngine.join(player1);
+        gameEngine.join(player2);
+        gameEngine.startMatch();
+        for (int i=1; i<=5; i++)
+            winAGame(player1);
+        for (int i=1; i<=4; i++)
+            winAGame(player2);
+
+        assertThat(gameEngine.getSetWinner()).isNull();
+        assertThat(gameEngine.getPlayerSetScore(player1.getName())).isEqualTo(5);
+        assertThat(gameEngine.getPlayerSetScore(player2.getName())).isEqualTo(4);
+        winAGame(player1);
+        assertThat(gameEngine.getPlayerSetScore(player1.getName())).isEqualTo(6);
+        assertThat(gameEngine.getSetWinner()).isEqualTo(player1);
+    }
+
+    @Test
+    public void testPlayer1_reach_6_and_the_other_has_5_player1_must_reach_7_points() {
+        gameEngine.join(player1);
+        gameEngine.join(player2);
+        gameEngine.startMatch();
+        for (int i=1; i<=5; i++)
+            winAGame(player1);
+        for (int i=1; i<=5; i++)
+            winAGame(player2);
+
+        assertThat(gameEngine.getSetWinner()).isNull();
+        assertThat(gameEngine.getPlayerSetScore(player1.getName())).isEqualTo(5);
+        assertThat(gameEngine.getPlayerSetScore(player2.getName())).isEqualTo(5);
+        winAGame(player1);
+        assertThat(gameEngine.getPlayerSetScore(player1.getName())).isEqualTo(6);
+        assertThat(gameEngine.getSetWinner()).isNull();
+        winAGame(player1);
+        assertThat(gameEngine.getPlayerSetScore(player1.getName())).isEqualTo(7);
+        assertThat(gameEngine.getSetWinner()).isEqualTo(player1);
+    }
+
 }
